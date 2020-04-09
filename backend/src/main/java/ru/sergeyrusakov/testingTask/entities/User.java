@@ -11,7 +11,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "users")
-//@Data
 public class User implements Serializable {
     public User() {
     }
