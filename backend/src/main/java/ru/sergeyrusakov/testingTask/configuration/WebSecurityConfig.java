@@ -26,8 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf(c -> c
                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .sessionManagement().maximumSessions(-1).sessionRegistry(sessionRegistry());
-//            http.sessionManagement().sessionFixation().migrateSession()
-//                    .sessionAuthenticationStrategy(registerSessionAuthenticationStrategy());
     }
 
     @Bean
