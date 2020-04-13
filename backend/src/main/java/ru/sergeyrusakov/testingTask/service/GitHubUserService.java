@@ -22,6 +22,7 @@ import java.util.Map;
 public class GitHubUserService extends DefaultOAuth2UserService {
     @Autowired
     private GitHubUserRepository repository;
+    //Saves principal to database before loading it
     @Override
     public GitHubOauth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 

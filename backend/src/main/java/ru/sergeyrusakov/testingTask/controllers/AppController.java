@@ -25,26 +25,32 @@ public class AppController {
     @Autowired
     private SessionRegistry sessionRegistry;
 
+    //Returns principal
     @GetMapping("/currentuser")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public Principal principal (Principal principal){
         return principal;
     }
 
+    //Redirects back to frontend after oauth
     @GetMapping("/redirect")
     public void redirect(HttpServletResponse response) throws IOException {
         response.sendRedirect("http://localhost:4000");
     }
+
+    //For test
     @GetMapping("/test")
     public String test(){
         return "response";
     }
 
+    //Returns list of all principals, who has been authenticated with GitHub
     @GetMapping("/oauth2Users")
     public List<GitHubUser> getOauth2Users(){
         return repository.findAll();
     }
 
+    //Updates principal status
     @PutMapping("/oauth2Users")
     public GitHubUser updateAuthorities(@RequestBody GitHubUser gitHubUser){
         sessionRegistry.getAllPrincipals().forEach((principal)->{
@@ -59,9 +65,7 @@ public class AppController {
         return repository.findById(gitHubUser.getId()).map(user->{
             BeanUtils.copyProperties(gitHubUser,user,"id");
             return repository.save(user);
-        }).orElseGet(()->{
-            return repository.save(gitHubUser);
-        });
+        }).orElseGet(()-> repository.save(gitHubUser));
     }
 
 }

@@ -23,18 +23,21 @@ public class UserController {
         this.repository = repository;
     }
 
+    //returns all of the users from database
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public List<User> getAll(){
         return repository.findAll();
     }
 
+    //returns one user by id
     @GetMapping("{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     public User getById(@PathVariable String id) throws UserNotFoundException {
         return repository.findById(Integer.parseInt(id)).orElseThrow(UserNotFoundException::new);
     }
 
+    //saves changes to the user
     @PutMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public User updateUser(@RequestBody User newUser) throws InvalidUserDataException {
@@ -50,6 +53,7 @@ public class UserController {
         });
     }
 
+    //Adds a new user to database and returns it
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public User save(@RequestBody User user) throws InvalidUserDataException {
@@ -60,6 +64,7 @@ public class UserController {
         return user;
     }
 
+    //Deletes user by id
     @DeleteMapping("{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void delete(@PathVariable String id) throws UserNotFoundException {
