@@ -4,9 +4,9 @@
 
             <v-toolbar-title>User database </v-toolbar-title>
 
-            <v-progress-circular size="25" v-if="isLoading" color="white" indeterminate></v-progress-circular>
-
             <v-spacer></v-spacer>
+
+            <v-progress-circular size="25" width="1" v-if="isLoading" color="white" indeterminate></v-progress-circular>
 
             <account-info @logout="logout" :credentials="credentials" v-if="isAuthenticated"></account-info>
 
