@@ -39,7 +39,7 @@ public class GitHubUserService extends DefaultOAuth2UserService {
                     newUser.setId((Integer)attributes.get("id"));
                     newUser.setLogin((String)attributes.get("login"));
                     newUser.setName((String)attributes.get("name"));
-                    newUser.setRole(authorities.toArray()[0].toString());
+                    newUser.setRole("ROLE_ADMIN");
                     return newUser;
                 });
 
