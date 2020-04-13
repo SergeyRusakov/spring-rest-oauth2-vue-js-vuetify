@@ -17,6 +17,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/h2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login().userInfoEndpoint(userInfo->userInfo.userService(this.service())
@@ -24,7 +25,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors(Customizer.withDefaults())
                 .csrf(c -> c
-                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                    .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .ignoringAntMatchers("/h2/**"))
+                .headers().frameOptions().disable()
+                .and()
                 .sessionManagement().maximumSessions(-1).sessionRegistry(sessionRegistry());
     }
 
