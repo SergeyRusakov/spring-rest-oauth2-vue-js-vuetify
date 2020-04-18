@@ -3,8 +3,13 @@ package ru.sergeyrusakov.testingTask.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
+import ru.sergeyrusakov.testingTask.validation.annotations.UserBirthDateValidationConstraint;
+import ru.sergeyrusakov.testingTask.validation.annotations.UserEmailValidationConstraint;
+import ru.sergeyrusakov.testingTask.validation.annotations.UserNameValidationConstraint;
+import ru.sergeyrusakov.testingTask.validation.annotations.UserSurnameValidationConstraint;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,19 +26,26 @@ public class User implements Serializable {
 
     @Column
     @NonNull
+    @Size(min = 1,max = 15)
+    @UserNameValidationConstraint
     private String name;
 
     @Column
     @NonNull
+    @Size(min = 1,max = 15)
+    @UserSurnameValidationConstraint
     private String surname;
 
     @Column(name = "birth_date")
     @NonNull
+    @UserBirthDateValidationConstraint
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     @Column
     @NonNull
+    @UserEmailValidationConstraint
+    @Size(min = 5)
     private String email;
 
     @Column(name = "is_married")

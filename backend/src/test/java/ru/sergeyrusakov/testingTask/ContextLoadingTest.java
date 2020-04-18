@@ -3,7 +3,6 @@ package ru.sergeyrusakov.testingTask;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.sergeyrusakov.testingTask.configuration.WebSecurityConfig;
 import ru.sergeyrusakov.testingTask.controllers.AppController;
 import ru.sergeyrusakov.testingTask.controllers.UserController;
 import ru.sergeyrusakov.testingTask.repositories.GitHubUserRepository;

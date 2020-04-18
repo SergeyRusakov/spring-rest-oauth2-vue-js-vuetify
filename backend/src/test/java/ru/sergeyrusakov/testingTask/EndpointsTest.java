@@ -126,6 +126,23 @@ public class EndpointsTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
+    public void shouldNotAddUser() throws Exception{
+        user = new User();
+        user.setMarried(true);
+        user.setName("Sam1");
+        user.setSurname("Bridges");
+        user.setEmail("sam@mail.ru");
+        user.setBirthDate(LocalDate.parse("1995-09-27"));
+        mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(user))
+                .accept(MediaType.APPLICATION_JSON)
+                .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
+    @WithMockUser(roles = {"ADMIN"})
     public void shouldUpdateUser() throws Exception{
         user = new User();
         user.setMarried(true);
