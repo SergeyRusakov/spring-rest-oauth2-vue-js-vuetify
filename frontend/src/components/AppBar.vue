@@ -4,7 +4,7 @@
 
             <v-toolbar-title>User database </v-toolbar-title>
 
-            <v-spacer></v-spacer>
+            <v-spacer></v-spacer> 
 
             <v-progress-circular size="25" width="1" v-if="isLoading" color="white" indeterminate></v-progress-circular>
 

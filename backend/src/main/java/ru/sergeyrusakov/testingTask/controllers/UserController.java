@@ -33,8 +33,8 @@ public class UserController {
     //returns one user by id
     @GetMapping("{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    public User getById(@PathVariable String id) throws UserNotFoundException {
-        return repository.findById(Integer.parseInt(id)).orElseThrow(UserNotFoundException::new);
+    public User getById(@PathVariable int id) throws UserNotFoundException {
+        return repository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     //saves changes to the user
@@ -67,9 +67,9 @@ public class UserController {
     //Deletes user by id
     @DeleteMapping("{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void delete(@PathVariable String id) throws UserNotFoundException {
-        repository.findById(Integer.parseInt(id)).orElseThrow(()->new UserNotFoundException("User "+id+" not found"));
-        repository.deleteById(Integer.parseInt(id));
+    public void delete(@PathVariable int id) throws UserNotFoundException {
+        repository.findById(id).orElseThrow(()->new UserNotFoundException("User "+id+" not found"));
+        repository.deleteById(id);
     }
 
 }

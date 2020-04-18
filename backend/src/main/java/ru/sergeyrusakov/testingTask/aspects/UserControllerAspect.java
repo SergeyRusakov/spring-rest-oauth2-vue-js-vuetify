@@ -18,12 +18,12 @@ public class UserControllerAspect {
 
     @Before("execution(* ru.sergeyrusakov.testingTask.controllers.UserController.delete(..))")
     public void beforeDeleting(JoinPoint joinPoint){
-        logger.info("Deleting user with id:"+(String)joinPoint.getArgs()[0]+" requested");
+        logger.info("Deleting user with id:"+String.valueOf(joinPoint.getArgs()[0])+" requested");
     }
 
     @AfterReturning("execution(* ru.sergeyrusakov.testingTask.controllers.UserController.delete(..))")
     public void afterDeleteReturning(JoinPoint joinPoint){
-        logger.info("User with id: "+(String)joinPoint.getArgs()[0]+" deleted");
+        logger.info("User with id: "+String.valueOf(joinPoint.getArgs()[0])+" deleted");
     }
 
     @AfterThrowing(value = "execution(* ru.sergeyrusakov.testingTask.controllers.UserController.delete(..))",

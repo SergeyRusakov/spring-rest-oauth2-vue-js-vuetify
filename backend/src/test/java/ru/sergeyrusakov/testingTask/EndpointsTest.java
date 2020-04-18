@@ -86,7 +86,7 @@ public class EndpointsTest {
     @WithMockUser(roles = {"ADMIN"} )
     public void shouldDeleteData() throws Exception {
         user = userRepository.save(user);
-        mockMvc.perform(MockMvcRequestBuilders.delete("/users/"+user.getId())
+        mockMvc.perform(MockMvcRequestBuilders.delete("/users/"+String.valueOf(user.getId()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
         try {

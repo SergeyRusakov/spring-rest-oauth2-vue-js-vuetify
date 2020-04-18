@@ -26,7 +26,7 @@ public class UserControllerTest {
     @Test
     public void userNotFoundTest(){
         Assertions.assertThrows(UserNotFoundException.class,()->{
-           userController.delete("300001");
+           userController.delete(300001);
         });
     }
 
@@ -92,7 +92,7 @@ public class UserControllerTest {
         user.setEmail("sam@mail.ru");
         user.setBirthDate(calendar.getTime());
         User returnedUser = userRepository.save(user);
-        userController.delete(String.valueOf(returnedUser.getId()));
+        userController.delete(returnedUser.getId());
         assertThat(userRepository.findById(returnedUser.getId())).isEmpty();
     }
 
