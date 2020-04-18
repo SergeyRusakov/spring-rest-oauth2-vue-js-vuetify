@@ -6,8 +6,8 @@ import lombok.NonNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "users")
@@ -30,7 +30,7 @@ public class User implements Serializable {
     @Column(name = "birth_date")
     @NonNull
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Column
     @NonNull
@@ -75,11 +75,11 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

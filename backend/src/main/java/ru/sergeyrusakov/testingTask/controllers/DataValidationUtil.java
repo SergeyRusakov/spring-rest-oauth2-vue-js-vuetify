@@ -3,8 +3,7 @@ package ru.sergeyrusakov.testingTask.controllers;
 
 import ru.sergeyrusakov.testingTask.entities.User;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class DataValidationUtil {
 
@@ -23,10 +22,8 @@ public class DataValidationUtil {
         return email.matches("[a-zA-Z_-[0-9]]+@[a-zA-Z_-[0-9]]+\\..+")&&email!=null&&!email.isEmpty();
     }
 
-    public static boolean birthDateIsValid(Date date){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1900,1,1);
-
-        return date.before(new Date())&&date.after(calendar.getTime());
+    public static boolean birthDateIsValid(LocalDate localDate){
+        return localDate.isAfter(LocalDate.parse("1900-01-01"))&&localDate.isBefore(LocalDate.now());
     }
+
 }

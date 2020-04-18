@@ -9,10 +9,10 @@ import ru.sergeyrusakov.testingTask.entities.User;
 import ru.sergeyrusakov.testingTask.exceptions.InvalidUserDataException;
 import ru.sergeyrusakov.testingTask.exceptions.UserNotFoundException;
 import ru.sergeyrusakov.testingTask.repositories.UserRepository;
+
+import java.time.LocalDate;
+
 import static org.assertj.core.api.Assertions.assertThat;
-
-
-import java.util.Calendar;
 
 @SpringBootTest
 public class UserControllerTest {
@@ -34,8 +34,7 @@ public class UserControllerTest {
     public void invalidUserDataExceptionInSave(){
         Assertions.assertThrows(InvalidUserDataException.class,()->{
            User user = new User();
-           Calendar calendar = Calendar.getInstance();
-           calendar.set(1995,9,27);
+           user.setBirthDate(LocalDate.parse("1995-09-27"));
            user.setName("2Sam");
            user.setEmail("wrongEmail");
            user.setSurname("@Johns");
@@ -48,8 +47,7 @@ public class UserControllerTest {
     public void invalidUserDataExceptionInUpdate(){
         Assertions.assertThrows(InvalidUserDataException.class,()->{
             User user = new User();
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(1995,9,27);
+            user.setBirthDate(LocalDate.parse("1995-09-27"));
             user.setId(4);
             user.setName("2Sam");
             user.setEmail("wrongEmail");
@@ -61,14 +59,12 @@ public class UserControllerTest {
 
     @Test
     public void savingTest() throws InvalidUserDataException {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1995,9,27);
         User user = new User();
         user.setMarried(true);
         user.setName("Sam");
         user.setSurname("Bridges");
         user.setEmail("sam@mail.ru");
-        user.setBirthDate(calendar.getTime());
+        user.setBirthDate(LocalDate.parse("1995-09-27"));
         User returnedUser = userController.save(user);
         try {
             assertThat(userRepository.findById(returnedUser.getId())).isNotNull();
@@ -83,14 +79,12 @@ public class UserControllerTest {
 
     @Test
     public void deletingTest() throws InvalidUserDataException, UserNotFoundException {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1995,9,27);
         User user = new User();
         user.setMarried(true);
         user.setName("Sam");
         user.setSurname("Bridges");
         user.setEmail("sam@mail.ru");
-        user.setBirthDate(calendar.getTime());
+        user.setBirthDate(LocalDate.parse("1995-09-27"));
         User returnedUser = userRepository.save(user);
         userController.delete(returnedUser.getId());
         assertThat(userRepository.findById(returnedUser.getId())).isEmpty();
@@ -98,14 +92,12 @@ public class UserControllerTest {
 
     @Test
     public void updatingTest() throws InvalidUserDataException {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1995,9,27);
         User user = new User();
         user.setMarried(true);
         user.setName("Sam");
         user.setSurname("Bridges");
         user.setEmail("sam@mail.ru");
-        user.setBirthDate(calendar.getTime());
+        user.setBirthDate(LocalDate.parse("1995-09-27"));
         User returnedUser = userController.save(user);
         returnedUser.setSurname("Ivanov");
         returnedUser = userController.updateUser(returnedUser);

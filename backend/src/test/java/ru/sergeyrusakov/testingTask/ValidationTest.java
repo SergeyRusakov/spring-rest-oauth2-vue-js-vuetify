@@ -6,9 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.sergeyrusakov.testingTask.controllers.DataValidationUtil;
 import ru.sergeyrusakov.testingTask.repositories.UserRepository;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.time.LocalDate;
 
-import java.util.Calendar;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class ValidationTest {
@@ -17,31 +17,22 @@ public class ValidationTest {
 
     @Test
     public void dateValidationTest1(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1995,9,27);
-        assertThat(DataValidationUtil.birthDateIsValid(calendar.getTime())).isTrue();
+        assertThat(DataValidationUtil.birthDateIsValid(LocalDate.parse("1995-09-27"))).isTrue();
     }
 
     @Test
     public void dateValidationTest2(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1900,2,1);
-        System.out.println(calendar.getTime());
-        assertThat(DataValidationUtil.birthDateIsValid(calendar.getTime())).isTrue();
+        assertThat(DataValidationUtil.birthDateIsValid(LocalDate.parse("1900-02-01"))).isTrue();
     }
 
     @Test
     public void dateValidationTest3(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1899,1,1);
-        assertThat(DataValidationUtil.birthDateIsValid(calendar.getTime())).isFalse();
+        assertThat(DataValidationUtil.birthDateIsValid(LocalDate.parse("1899-01-01"))).isFalse();
     }
 
     @Test
     public void dateValidationTest4(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2100,1,1);
-        assertThat(DataValidationUtil.birthDateIsValid(calendar.getTime())).isFalse();
+        assertThat(DataValidationUtil.birthDateIsValid(LocalDate.parse("2100-01-01"))).isFalse();
     }
 
 

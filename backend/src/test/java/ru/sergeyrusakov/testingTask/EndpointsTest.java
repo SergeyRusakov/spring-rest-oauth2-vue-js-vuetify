@@ -20,8 +20,8 @@ import ru.sergeyrusakov.testingTask.repositories.UserRepository;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -37,14 +37,12 @@ public class EndpointsTest {
     private User user;
 
     public EndpointsTest() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1995,9,27);
         user = new User();
         user.setMarried(true);
         user.setName("Sam");
         user.setSurname("Bridges");
         user.setEmail("sam@mail.ru");
-        user.setBirthDate(calendar.getTime());
+        user.setBirthDate(LocalDate.parse("1995-09-27"));
         user.setCreationDate(LocalDateTime.now());
         user.setTimeLastEdited(LocalDateTime.now());
     }
@@ -99,14 +97,12 @@ public class EndpointsTest {
     @Test
     @WithMockUser(roles = {"ADMIN"})
     public void shouldAddUser() throws Exception{
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1995,9,27);
         user = new User();
         user.setMarried(true);
         user.setName("Sam");
         user.setSurname("Bridges");
         user.setEmail("sam@mail.ru");
-        user.setBirthDate(calendar.getTime());
+        user.setBirthDate(LocalDate.parse("1995-09-27"));
             mockMvc.perform(post("/users")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(asJsonString(user))
@@ -131,14 +127,12 @@ public class EndpointsTest {
     @Test
     @WithMockUser(roles = {"ADMIN"})
     public void shouldUpdateUser() throws Exception{
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(1995,9,27);
         user = new User();
         user.setMarried(true);
         user.setName("Sam");
         user.setSurname("Bridges");
         user.setEmail("sam@mail.ru");
-        user.setBirthDate(calendar.getTime());
+        user.setBirthDate(LocalDate.parse("1995-09-27"));
         user.setTimeLastEdited(LocalDateTime.now());
         user.setCreationDate(LocalDateTime.now());
         user = userRepository.save(user);
