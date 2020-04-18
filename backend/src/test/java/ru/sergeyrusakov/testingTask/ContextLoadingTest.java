@@ -8,6 +8,8 @@ import ru.sergeyrusakov.testingTask.controllers.AppController;
 import ru.sergeyrusakov.testingTask.controllers.UserController;
 import ru.sergeyrusakov.testingTask.repositories.GitHubUserRepository;
 import ru.sergeyrusakov.testingTask.repositories.UserRepository;
+import ru.sergeyrusakov.testingTask.service.AppControllerService;
+import ru.sergeyrusakov.testingTask.service.UserControllerService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,6 +26,12 @@ public class ContextLoadingTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AppControllerService appControllerService;
+
+    @Autowired
+    private UserControllerService userControllerService;
 
     @Test
     public void userControllerTest(){
@@ -43,5 +51,15 @@ public class ContextLoadingTest {
     @Test
     public void userRepositoryTest(){
         assertThat(userRepository).isNotNull();
+    }
+
+    @Test
+    public void appControllerServiceTest(){
+        assertThat(appControllerService).isNotNull();
+    }
+
+    @Test
+    public void userControllerServiceTest(){
+        assertThat(userControllerService).isNotNull();
     }
 }
