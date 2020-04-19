@@ -3,10 +3,10 @@ package ru.sergeyrusakov.testingTask.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
-import ru.sergeyrusakov.testingTask.validation.annotations.UserBirthDateValidationConstraint;
-import ru.sergeyrusakov.testingTask.validation.annotations.UserEmailValidationConstraint;
-import ru.sergeyrusakov.testingTask.validation.annotations.UserNameValidationConstraint;
-import ru.sergeyrusakov.testingTask.validation.annotations.UserSurnameValidationConstraint;
+import ru.sergeyrusakov.testingTask.validation.annotations.EmployeeBirthDateValidationConstraint;
+import ru.sergeyrusakov.testingTask.validation.annotations.EmployeeEmailValidationConstraint;
+import ru.sergeyrusakov.testingTask.validation.annotations.EmployeeNameValidationConstraint;
+import ru.sergeyrusakov.testingTask.validation.annotations.EmployeeSurnameValidationConstraint;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -15,10 +15,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-
-@Table(name = "users")
-public class User implements Serializable {
-    public User() {
+@Table(name = "employees")
+public class Employee implements Serializable {
+    public Employee() {
     }
 
     @Id
@@ -28,24 +27,24 @@ public class User implements Serializable {
     @Column
     @NonNull
     @Size(min = 1,max = 15)
-    @UserNameValidationConstraint
+    @EmployeeNameValidationConstraint
     private String name;
 
     @Column
     @NonNull
     @Size(min = 1,max = 15)
-    @UserSurnameValidationConstraint
+    @EmployeeSurnameValidationConstraint
     private String surname;
 
     @Column(name = "birth_date")
     @NonNull
-    @UserBirthDateValidationConstraint
+    @EmployeeBirthDateValidationConstraint
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     @Column
     @NonNull
-    @UserEmailValidationConstraint
+    @EmployeeEmailValidationConstraint
     @Size(min = 5)
     private String email;
 

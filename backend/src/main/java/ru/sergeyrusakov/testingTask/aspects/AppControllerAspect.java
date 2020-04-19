@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.sergeyrusakov.testingTask.entities.GitHubUser;
-import ru.sergeyrusakov.testingTask.exceptions.UserNotFoundException;
+import ru.sergeyrusakov.testingTask.exceptions.EmplyeeNotFoundException;
 import ru.sergeyrusakov.testingTask.repositories.GitHubUserRepository;
 
 @Aspect
@@ -19,10 +19,10 @@ public class AppControllerAspect {
     @Autowired
     private GitHubUserRepository repository;
     @Before("execution(* ru.sergeyrusakov.testingTask.controllers.AppController.updateAuthorities(..))")
-    public void beforeUpdatingAuthorities(JoinPoint joinPoint) throws UserNotFoundException {
+    public void beforeUpdatingAuthorities(JoinPoint joinPoint) throws EmplyeeNotFoundException {
         if(joinPoint.getArgs()[0] instanceof GitHubUser){
             GitHubUser user = (GitHubUser)joinPoint.getArgs()[0];
-            GitHubUser gitHubUser = repository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
+            GitHubUser gitHubUser = repository.findById(user.getId()).orElseThrow(EmplyeeNotFoundException::new);
             logger.info("Changing authorities of user "
                     +gitHubUser.getLogin()+" id: "+gitHubUser.getId()+" current role: "+gitHubUser.getRole());
         }

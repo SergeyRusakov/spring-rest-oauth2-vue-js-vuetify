@@ -1,6 +1,6 @@
 package ru.sergeyrusakov.testingTask.validation.annotations;
 
-import ru.sergeyrusakov.testingTask.validation.validators.UserBirthDateValidator;
+import ru.sergeyrusakov.testingTask.validation.validators.EmployeeSurnameValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,9 +11,9 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy= UserBirthDateValidator.class)
-public @interface UserBirthDateValidationConstraint {
-    String message() default "Invalid birth date";
+@Constraint(validatedBy= EmployeeSurnameValidator.class)
+public @interface EmployeeSurnameValidationConstraint {
+    String message() default "Invalid surname";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

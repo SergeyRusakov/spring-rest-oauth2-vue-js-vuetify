@@ -4,18 +4,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.sergeyrusakov.testingTask.controllers.AppController;
-import ru.sergeyrusakov.testingTask.controllers.UserController;
+import ru.sergeyrusakov.testingTask.controllers.EmployeeController;
 import ru.sergeyrusakov.testingTask.repositories.GitHubUserRepository;
-import ru.sergeyrusakov.testingTask.repositories.UserRepository;
+import ru.sergeyrusakov.testingTask.repositories.EmployeeRepository;
 import ru.sergeyrusakov.testingTask.service.AppControllerService;
-import ru.sergeyrusakov.testingTask.service.UserControllerService;
+import ru.sergeyrusakov.testingTask.service.EmployeeControllerService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class ContextLoadingTest {
     @Autowired
-    private UserController userController;
+    private EmployeeController employeeController;
 
     @Autowired
     private AppController appController;
@@ -24,17 +24,17 @@ public class ContextLoadingTest {
     private GitHubUserRepository gitHubUserRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private AppControllerService appControllerService;
 
     @Autowired
-    private UserControllerService userControllerService;
+    private EmployeeControllerService employeeControllerService;
 
     @Test
-    public void userControllerTest(){
-        assertThat(userController).isNotNull();
+    public void employeeControllerTest(){
+        assertThat(employeeController).isNotNull();
     }
 
     @Test
@@ -48,8 +48,8 @@ public class ContextLoadingTest {
     }
 
     @Test
-    public void userRepositoryTest(){
-        assertThat(userRepository).isNotNull();
+    public void employeeRepositoryTest(){
+        assertThat(employeeRepository).isNotNull();
     }
 
     @Test
@@ -59,6 +59,6 @@ public class ContextLoadingTest {
 
     @Test
     public void userControllerServiceTest(){
-        assertThat(userControllerService).isNotNull();
+        assertThat(employeeControllerService).isNotNull();
     }
 }

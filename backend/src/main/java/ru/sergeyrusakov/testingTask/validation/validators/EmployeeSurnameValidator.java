@@ -1,11 +1,11 @@
 package ru.sergeyrusakov.testingTask.validation.validators;
 
-import ru.sergeyrusakov.testingTask.validation.annotations.UserNameValidationConstraint;
+import ru.sergeyrusakov.testingTask.validation.annotations.EmployeeSurnameValidationConstraint;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UserNameValidator implements ConstraintValidator<UserNameValidationConstraint,String> {
+public class EmployeeSurnameValidator implements ConstraintValidator<EmployeeSurnameValidationConstraint,String> {
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {

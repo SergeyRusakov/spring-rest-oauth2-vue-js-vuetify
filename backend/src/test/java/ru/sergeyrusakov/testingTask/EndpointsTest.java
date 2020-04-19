@@ -14,9 +14,9 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import ru.sergeyrusakov.testingTask.entities.User;
-import ru.sergeyrusakov.testingTask.exceptions.UserNotFoundException;
-import ru.sergeyrusakov.testingTask.repositories.UserRepository;
+import ru.sergeyrusakov.testingTask.entities.Employee;
+import ru.sergeyrusakov.testingTask.exceptions.EmplyeeNotFoundException;
+import ru.sergeyrusakov.testingTask.repositories.EmployeeRepository;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -32,24 +32,24 @@ public class EndpointsTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private UserRepository userRepository;
+    private EmployeeRepository employeeRepository;
 
-    private User user;
+    private Employee employee;
 
     public EndpointsTest() {
-        user = new User();
-        user.setMarried(true);
-        user.setName("Sam");
-        user.setSurname("Bridges");
-        user.setEmail("sam@mail.ru");
-        user.setBirthDate(LocalDate.parse("1995-09-27"));
-        user.setCreationDate(LocalDateTime.now());
-        user.setTimeLastEdited(LocalDateTime.now());
+        employee = new Employee();
+        employee.setMarried(true);
+        employee.setName("Sam");
+        employee.setSurname("Bridges");
+        employee.setEmail("sam@mail.ru");
+        employee.setBirthDate(LocalDate.parse("1995-09-27"));
+        employee.setCreationDate(LocalDateTime.now());
+        employee.setTimeLastEdited(LocalDateTime.now());
     }
 
     @Test
     public void shouldRedirectWhileNotAuthenticated() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/users"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/employees"))
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/test"))
@@ -66,75 +66,75 @@ public class EndpointsTest {
 
     @Test
     @WithMockUser
-    public void shouldReturnUser() throws Exception {
+    public void shouldReturnEmployee() throws Exception {
         try {
-            user = userRepository.save(user);
-            mockMvc.perform(MockMvcRequestBuilders.get("/users/" + user.getId()))
+            employee = employeeRepository.save(employee);
+            mockMvc.perform(MockMvcRequestBuilders.get("/employees/" + employee.getId()))
                     .andExpect(MockMvcResultMatchers.status().isOk())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(user.getName()));
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(employee.getName()));
         }catch (Exception e){
 
         }
         finally {
-            userRepository.delete(user);
+            employeeRepository.delete(employee);
         }
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN"} )
-    public void shouldDeleteData() throws Exception {
-        user = userRepository.save(user);
-        mockMvc.perform(MockMvcRequestBuilders.delete("/users/"+String.valueOf(user.getId()))
+    public void shouldDeleteEmployee() throws Exception {
+        employee = employeeRepository.save(employee);
+        mockMvc.perform(MockMvcRequestBuilders.delete("/employees/"+String.valueOf(employee.getId()))
                 .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
         try {
-            Assertions.assertThat(userRepository.findById(user.getId())).isEmpty();
+            Assertions.assertThat(employeeRepository.findById(employee.getId())).isEmpty();
         }catch (Exception e){
-            userRepository.delete(user);
+            employeeRepository.delete(employee);
         }
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    public void shouldAddUser() throws Exception{
-        user = new User();
-        user.setMarried(true);
-        user.setName("Sam");
-        user.setSurname("Bridges");
-        user.setEmail("sam@mail.ru");
-        user.setBirthDate(LocalDate.parse("1995-09-27"));
-        mockMvc.perform(post("/users")
+    public void shouldAddEmployee() throws Exception{
+        employee = new Employee();
+        employee.setMarried(true);
+        employee.setName("Sam");
+        employee.setSurname("Bridges");
+        employee.setEmail("sam@mail.ru");
+        employee.setBirthDate(LocalDate.parse("1995-09-27"));
+        mockMvc.perform(post("/employees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(user))
+                .content(asJsonString(employee))
                 .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo((x) -> {
                         ObjectMapper mapper = new ObjectMapper();
                         mapper.registerModule(new JavaTimeModule());
                         Reader reader = new StringReader(x.getResponse().getContentAsString());
-                        user = mapper.readValue(reader, User.class);
+                        employee = mapper.readValue(reader, Employee.class);
                     });
             try {
-                Assertions.assertThat(userRepository.findById(user.getId())).isNotEmpty();
+                Assertions.assertThat(employeeRepository.findById(employee.getId())).isNotEmpty();
             }catch (Exception e){
                 e.printStackTrace();
             }finally {
-                userRepository.delete(user);
+                employeeRepository.delete(employee);
             }
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    public void shouldNotAddUser() throws Exception{
-        user = new User();
-        user.setMarried(true);
-        user.setName("Sam1");
-        user.setSurname("Bridges");
-        user.setEmail("sam@mail.ru");
-        user.setBirthDate(LocalDate.parse("1995-09-27"));
-        mockMvc.perform(post("/users")
+    public void shouldNotAddEmployee() throws Exception{
+        employee = new Employee();
+        employee.setMarried(true);
+        employee.setName("Sam1");
+        employee.setSurname("Bridges");
+        employee.setEmail("sam@mail.ru");
+        employee.setBirthDate(LocalDate.parse("1995-09-27"));
+        mockMvc.perform(post("/employees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(user))
+                .content(asJsonString(employee))
                 .accept(MediaType.APPLICATION_JSON)
                 .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
@@ -142,30 +142,30 @@ public class EndpointsTest {
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    public void shouldUpdateUser() throws Exception{
-        user = new User();
-        user.setMarried(true);
-        user.setName("Sam");
-        user.setSurname("Bridges");
-        user.setEmail("sam@mail.ru");
-        user.setBirthDate(LocalDate.parse("1995-09-27"));
-        user.setTimeLastEdited(LocalDateTime.now());
-        user.setCreationDate(LocalDateTime.now());
-        user = userRepository.save(user);
+    public void shouldUpdateEmployee() throws Exception{
+        employee = new Employee();
+        employee.setMarried(true);
+        employee.setName("Sam");
+        employee.setSurname("Bridges");
+        employee.setEmail("sam@mail.ru");
+        employee.setBirthDate(LocalDate.parse("1995-09-27"));
+        employee.setTimeLastEdited(LocalDateTime.now());
+        employee.setCreationDate(LocalDateTime.now());
+        employee = employeeRepository.save(employee);
         String newName = "John";
-        user.setName(newName);
-        mockMvc.perform(put("/users")
+        employee.setName(newName);
+        mockMvc.perform(put("/employees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(user))
+                .content(asJsonString(employee))
                 .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
         try {
-            User newUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
-            Assertions.assertThat(newUser.getName().equals(user.getName()));
+            Employee newEmployee = employeeRepository.findById(employee.getId()).orElseThrow(EmplyeeNotFoundException::new);
+            Assertions.assertThat(newEmployee.getName().equals(employee.getName()));
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            userRepository.delete(user);
+            employeeRepository.delete(employee);
         }
     }
 

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.sergeyrusakov.testingTask.entities.User;
+import ru.sergeyrusakov.testingTask.entities.Employee;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -18,87 +18,87 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class ValidationTest {
 
-    private User user;
+    private Employee employee;
     private Validator validator;
 
     public ValidationTest(){
-        user = new User();
-        user.setName("Sam");
-        user.setSurname("Bridges");
-        user.setEmail("sambridges@gmail.com");
-        user.setBirthDate(LocalDate.parse("1995-10-27"));
-        user.setMarried(true);
+        employee = new Employee();
+        employee.setName("Sam");
+        employee.setSurname("Bridges");
+        employee.setEmail("sambridges@gmail.com");
+        employee.setBirthDate(LocalDate.parse("1995-10-27"));
+        employee.setMarried(true);
         ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
         validator=validatorFactory.usingContext().getValidator();
     }
 
     @Test
     public void correctDataTest1(){
-        Set<ConstraintViolation<User>> validates = validator.validate(user);
+        Set<ConstraintViolation<Employee>> validates = validator.validate(employee);
         assertThat(validates).isEmpty();
     }
 
     @Test
     public void correctDataTest2(){
-        User newUser = new User();
-        newUser.setSurname("Sam-John jr.");
-        newUser.setName("Daniel");
-        newUser.setEmail("daniel1@gmail.ru");
-        newUser.setMarried(false);
-        newUser.setBirthDate(LocalDate.parse("1900-01-02"));
-        Set<ConstraintViolation<User>> validates = validator.validate(newUser);
+        Employee newEmployee = new Employee();
+        newEmployee.setSurname("Sam-John jr.");
+        newEmployee.setName("Daniel");
+        newEmployee.setEmail("daniel1@gmail.ru");
+        newEmployee.setMarried(false);
+        newEmployee.setBirthDate(LocalDate.parse("1900-01-02"));
+        Set<ConstraintViolation<Employee>> validates = validator.validate(newEmployee);
         assertThat(validates).isEmpty();
     }
 
     @Test
     public void incorrectBirthDateTestAfter(){
-        user.setBirthDate(LocalDate.parse("2100-10-27"));
-        Set<ConstraintViolation<User>> validates = validator.validate(user);
+        employee.setBirthDate(LocalDate.parse("2100-10-27"));
+        Set<ConstraintViolation<Employee>> validates = validator.validate(employee);
         assertThat(validates.size()).isEqualTo(1);
         String error = validates.stream().map(ConstraintViolation::getMessage).findFirst().orElse(null);
         assertThat(error).isEqualTo("Invalid birth date");
-        user.setBirthDate(LocalDate.parse("1995-10-27"));
+        employee.setBirthDate(LocalDate.parse("1995-10-27"));
     }
 
     @Test
     public void incorrectBirthDateTestBefore(){
-        user.setBirthDate(LocalDate.parse("1899-10-27"));
-        Set<ConstraintViolation<User>> validates = validator.validate(user);
+        employee.setBirthDate(LocalDate.parse("1899-10-27"));
+        Set<ConstraintViolation<Employee>> validates = validator.validate(employee);
         assertThat(validates.size()).isEqualTo(1);
         String error = validates.stream().map(ConstraintViolation::getMessage).findFirst().orElse(null);
         assertThat(error).isEqualTo("Invalid birth date");
-        user.setBirthDate(LocalDate.parse("1995-10-27"));
+        employee.setBirthDate(LocalDate.parse("1995-10-27"));
     }
 
     @Test
     public void incorrectNameTest(){
-        user.setName("Sam2");
-        Set<ConstraintViolation<User>> validates = validator.validate(user);
+        employee.setName("Sam2");
+        Set<ConstraintViolation<Employee>> validates = validator.validate(employee);
         assertThat(validates.size()).isEqualTo(1);
         String error = validates.stream().map(ConstraintViolation::getMessage).findFirst().orElse(null);
         assertThat(error).isEqualTo("Invalid name");
-        user.setName("Sam");
+        employee.setName("Sam");
     }
 
     @Test
     public void invalidSurnameTest(){
         Logger logger = LoggerFactory.getLogger("TEST LOGGER");
-        user.setSurname(".Bridges1");
-        Set<ConstraintViolation<User>> validates = validator.validate(user);
+        employee.setSurname(".Bridges1");
+        Set<ConstraintViolation<Employee>> validates = validator.validate(employee);
         assertThat(validates.size()).isEqualTo(1);
         String error = validates.stream().map(ConstraintViolation::getMessage).findFirst().orElse(null);
         assertThat(error).isEqualTo("Invalid surname");
-        user.setSurname("Bridges");
+        employee.setSurname("Bridges");
     }
 
     @Test
     public void incorrectEmailTest(){
-        user.setEmail("samBridges");
-        Set<ConstraintViolation<User>> validates = validator.validate(user);
+        employee.setEmail("samBridges");
+        Set<ConstraintViolation<Employee>> validates = validator.validate(employee);
         assertThat(validates.size()).isEqualTo(1);
         String error = validates.stream().map(ConstraintViolation::getMessage).findFirst().orElse(null);
         assertThat(error).isEqualTo("Invalid email");
-        user.setEmail("sambridges@gmail.com");
+        employee.setEmail("sambridges@gmail.com");
     }
 
 }
