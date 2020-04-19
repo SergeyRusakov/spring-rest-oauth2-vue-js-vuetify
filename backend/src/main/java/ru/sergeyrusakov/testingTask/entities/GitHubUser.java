@@ -1,6 +1,6 @@
 package ru.sergeyrusakov.testingTask.entities;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,11 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Data
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="github_users")
 public class GitHubUser {

@@ -103,12 +103,11 @@ public class EndpointsTest {
         user.setSurname("Bridges");
         user.setEmail("sam@mail.ru");
         user.setBirthDate(LocalDate.parse("1995-09-27"));
-            mockMvc.perform(post("/users")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(asJsonString(user))
-                    .accept(MediaType.APPLICATION_JSON)
-                    .with(SecurityMockMvcRequestPostProcessors.csrf()))
-                    .andExpect(MockMvcResultMatchers.status().isOk())
+        mockMvc.perform(post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(user))
+                .with(SecurityMockMvcRequestPostProcessors.csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
                     .andDo((x) -> {
                         ObjectMapper mapper = new ObjectMapper();
                         mapper.registerModule(new JavaTimeModule());
