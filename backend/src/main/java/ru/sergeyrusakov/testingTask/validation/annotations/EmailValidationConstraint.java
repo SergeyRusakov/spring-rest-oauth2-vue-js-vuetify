@@ -1,6 +1,6 @@
 package ru.sergeyrusakov.testingTask.validation.annotations;
 
-import ru.sergeyrusakov.testingTask.validation.validators.EmployeeEmailValidator;
+import ru.sergeyrusakov.testingTask.validation.validators.EmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,8 +11,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy= EmployeeEmailValidator.class)
-public @interface EmployeeEmailValidationConstraint {
+@Constraint(validatedBy= EmailValidator.class)
+public @interface EmailValidationConstraint {
     String message() default "Invalid email";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

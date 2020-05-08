@@ -2,11 +2,9 @@ package ru.sergeyrusakov.testingTask.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.NonNull;
-import ru.sergeyrusakov.testingTask.validation.annotations.EmployeeBirthDateValidationConstraint;
-import ru.sergeyrusakov.testingTask.validation.annotations.EmployeeEmailValidationConstraint;
-import ru.sergeyrusakov.testingTask.validation.annotations.EmployeeNameValidationConstraint;
-import ru.sergeyrusakov.testingTask.validation.annotations.EmployeeSurnameValidationConstraint;
+import ru.sergeyrusakov.testingTask.validation.annotations.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -15,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Data
 @Table(name = "employees")
 public class Employee implements Serializable {
     public Employee() {
@@ -44,86 +43,33 @@ public class Employee implements Serializable {
 
     @Column
     @NonNull
-    @EmployeeEmailValidationConstraint
+    @EmailValidationConstraint
     @Size(min = 5)
     private String email;
 
-    @Column(name = "is_married")
+    @Column(name = "phone_number")
+    @PhoneNumberValidationConstraint
+    private String phoneNumber;
+
+    @Column(name = "is_working")
     @JsonProperty
-    private boolean isMarried;
+    private boolean isWorking;
 
-    @Column(updatable = false, name = "creation_date")
+    @Column(updatable = false, name = "time_added")
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss")
     @NonNull
-    private LocalDateTime creationDate;
+    private LocalDateTime timeAdded;
 
-    @Column(name="time_last_edited")
+    @Column(name="time_updated")
     @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss")
     @NonNull
-    private LocalDateTime timeLastEdited;
+    private LocalDateTime timeUpdated;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isMarried() {
-        return isMarried;
-    }
-
-    public void setMarried(boolean married) {
-        isMarried = married;
-    }
-
-    public LocalDateTime getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(LocalDateTime creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public LocalDateTime getTimeLastEdited() {
-        return timeLastEdited;
-    }
-
-    public void setTimeLastEdited(LocalDateTime timeLastEdited) {
-        this.timeLastEdited = timeLastEdited;
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "position_id")
+    private Position position;
 }

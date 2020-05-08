@@ -9,13 +9,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(InvalidEmployeeDataException.class)
-    public ResponseEntity<InvalidEmployeeDataException> invalidEmployeeDataExceptionResponseEntity(){
-        return new ResponseEntity<>(new InvalidEmployeeDataException(), HttpStatus.UNPROCESSABLE_ENTITY);
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<InvalidDataException> invalidEmployeeDataExceptionResponseEntity(){
+        return new ResponseEntity<>(new InvalidDataException(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-    @ExceptionHandler(EmplyeeNotFoundException.class)
-    public ResponseEntity<EmplyeeNotFoundException> employeeNotFoundExceptionResponseEntity(){
-        return new ResponseEntity<>(new EmplyeeNotFoundException(), HttpStatus.UNPROCESSABLE_ENTITY);
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<DataNotFoundException> employeeNotFoundExceptionResponseEntity(){
+        return new ResponseEntity<>(new DataNotFoundException(), HttpStatus.NOT_FOUND);
     }
 }

@@ -11,7 +11,7 @@ import ru.sergeyrusakov.testingTask.entities.GitHubOauth2User;
 
 @Aspect
 @Component
-public class Oauth2ServiceAspect {
+public class GitHubUserServiceAspect {
     private final Logger logger = LoggerFactory.getLogger("LOGGER");
     @Before("execution(* ru.sergeyrusakov.testingTask.service.GitHubUserService.loadUser(..))")
     public void beforeUserLoading() {
