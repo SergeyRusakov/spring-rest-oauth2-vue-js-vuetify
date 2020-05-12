@@ -8,3 +8,6 @@ spring.security.oauth2.client.registration.github.client-id=id
 spring.security.oauth2.client.registration.github.client-secret=secret
 
 Visit https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/ for details.
+
+To run the application: 
+mvn spring-boot:run 
